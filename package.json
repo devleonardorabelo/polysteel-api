@@ -26,6 +26,7 @@
     "@types/mongoose": "^5.7.37",
     "@typescript-eslint/eslint-plugin": "^4.6.0",
     "@typescript-eslint/parser": "^4.6.0",
+    "bcryptjs": "^2.4.3",
     "dotenv": "^8.2.0",
     "eslint-config-airbnb-base": "^14.2.0",
     "eslint-plugin-import": "2.21.2",
