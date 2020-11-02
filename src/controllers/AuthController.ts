@@ -1,4 +1,5 @@
 import { Request, Response } from 'express';
+import { v4 as uuid } from 'uuid';
 import { CustomerType } from '../types';
 import treatEmail from '../utils/treatEmail';
 
@@ -10,6 +11,7 @@ export = {
 
   async signup(req: Request, res: Response) {
     const { name, email, password }: CustomerType = req.body;
+    const id = uuid();
 
     if (!name || name.length <= 3) return res.status(400).json('Nome inválido');
 
@@ -18,6 +20,6 @@ export = {
 
     if (!password || password.length < 8) return res.status(400).json('Senha inválida');
 
-    return res.status(201).json({ message: 'Tudo certo!' });
+    return res.status(201).json({ message: 'Tudo certo!', id });
   },
 }
