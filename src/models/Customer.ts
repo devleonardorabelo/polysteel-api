@@ -1,6 +1,7 @@
-import { Schema, model } from 'mongoose';
+import { Schema, model, Document } from 'mongoose';
+import { CustomerType } from '../types';
 
-const CustomerSchema = new Schema({
+const CustomerSchema: Schema = new Schema({
   id: String,
   name: String,
   email: String,
@@ -17,6 +18,8 @@ const CustomerSchema = new Schema({
     state: String,
     referencePoint: String,
   },
+  actived: Boolean,
+  recoveryCode: String,
 });
 
-export default model('Customer', CustomerSchema);
+export default model<CustomerType & Document>('Customer', CustomerSchema);

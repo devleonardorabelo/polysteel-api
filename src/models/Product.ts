@@ -1,7 +1,8 @@
-import { Schema, model } from 'mongoose';
+import { Schema, model, Document } from 'mongoose';
+import { ProductType } from '../types/product';
 import Category from './Category';
 
-const ProductSchema = new Schema({
+const ProductSchema: Schema = new Schema({
   id: String,
   image: String,
   name: String,
@@ -14,4 +15,4 @@ const ProductSchema = new Schema({
   characteristics: Object,
 });
 
-export default model('Product', ProductSchema);
+export default model<ProductType & Document>('Product', ProductSchema);

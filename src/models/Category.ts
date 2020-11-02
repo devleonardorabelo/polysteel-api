@@ -1,9 +1,10 @@
-import { Schema, model } from 'mongoose';
+import { Schema, model, Document } from 'mongoose';
+import { CategoryType } from '../types/category';
 
-const CategorySchema = new Schema({
+const CategorySchema: Schema = new Schema({
   id: String,
   image: String,
   name: String,
 });
 
-export default model('Category', CategorySchema);
+export default model<CategoryType & Document>('Category', CategorySchema);

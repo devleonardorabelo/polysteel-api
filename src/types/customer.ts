@@ -2,10 +2,10 @@ export type CustomerType = {
   id: string,
   name: string,
   email: string,
-  password: string,
-  phone: string,
-  cpf: string,
-  address: {
+  password?: string,
+  phone?: string,
+  cpf?: string,
+  address?: {
     cep: string,
     city: string,
     street: string, // Endereço inicial
@@ -14,5 +14,7 @@ export type CustomerType = {
     number: number,
     state: string,
     referencePoint: string,
-  }
+  },
+  actived: boolean,
+  recoveryCode: string
 };
