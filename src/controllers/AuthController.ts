@@ -3,6 +3,11 @@ import { CustomerType } from '../types';
 import treatEmail from '../utils/treatEmail';
 
 export = {
+  async sigin(req: Request, res: Response) {
+    const { email, password }: CustomerType = req.body;
+    return res.status(200).json({ email, password });
+  },
+
   async signup(req: Request, res: Response) {
     const { name, email, password }: CustomerType = req.body;
 
