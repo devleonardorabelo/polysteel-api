@@ -2,6 +2,7 @@ import { Schema, model } from 'mongoose';
 import Category from './Category';
 
 const ProductSchema = new Schema({
+  id: String,
   image: String,
   name: String,
   title: String,

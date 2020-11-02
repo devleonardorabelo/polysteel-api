@@ -1,6 +1,7 @@
 import { Schema, model } from 'mongoose';
 
 const CustomerSchema = new Schema({
+  id: String,
   name: String,
   email: String,
   password: String,
