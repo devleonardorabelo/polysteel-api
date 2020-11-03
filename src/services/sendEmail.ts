@@ -1,8 +1,8 @@
 import nodemailer from 'nodemailer';
-import { MailModel } from '../../types';
+import { MailModel } from '../types';
 
 const sendMail = async ({
-  to, subject, text, html,
+  title, to, subject, text, html,
 }: MailModel): Promise<void> => {
   const transporter = nodemailer.createTransport({
     host: process.env.MAILHOST,
@@ -18,7 +18,7 @@ const sendMail = async ({
   });
 
   await transporter.sendMail({
-    from: `<${process.env.MAILUSER}>`,
+    from: `"${title}" <${process.env.MAILUSER}>`,
     to: `<${to}>`,
     subject,
     text,

@@ -1,7 +1,7 @@
 import { CategoryType } from './category';
 
 export type ProductType = {
-  id: string,
+  productID: string,
   image: string,
   name: string,
   title: string,

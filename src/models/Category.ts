@@ -2,7 +2,7 @@ import { Schema, model, Document } from 'mongoose';
 import { CategoryType } from '../types/category';
 
 const CategorySchema: Schema = new Schema({
-  id: String,
+  categoryID: String,
   image: String,
   name: String,
 });

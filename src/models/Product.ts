@@ -3,7 +3,7 @@ import { ProductType } from '../types/product';
 import Category from './Category';
 
 const ProductSchema: Schema = new Schema({
-  id: String,
+  productID: String,
   image: String,
   name: String,
   title: String,

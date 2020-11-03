@@ -2,7 +2,7 @@ import { Schema, model, Document } from 'mongoose';
 import { CustomerType } from '../types';
 
 const CustomerSchema: Schema = new Schema({
-  id: String,
+  customerID: String,
   name: String,
   email: String,
   password: String,

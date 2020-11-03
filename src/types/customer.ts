@@ -1,5 +1,5 @@
 export type CustomerType = {
-  id: string,
+  customerID: string,
   name: string,
   email: string,
   password?: string,

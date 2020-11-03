@@ -7,22 +7,54 @@ import Customer from '../models/Customer';
 
 import treatEmail from '../utils/treatEmail';
 import generateToken from './utils/generateToken';
+import sendMail from '../services/sendEmail';
 
 export = {
   async index(req: Request, res: Response) {
     const { email, password }: CustomerType = req.body;
 
     const emailTest: boolean = treatEmail(email);
-    if (!emailTest) return res.status(400).json('Email Invalido');
+    if (!emailTest) return res.status(400).json({ message: 'Email Invalido' });
 
     const account = await Customer.findOne({ email });
-    if (!account) return res.status(400).json('Não existe uma conta com este email');
+    if (!account) return res.status(400).json({ message: 'Não existe uma conta com este email' });
 
-    if (!password || password.length < 8) return res.status(400).json('Senha inválida');
-    if (!await bcrypt.compare(password, account.password)) return res.status(401).json('Senha incorreta');
+    if (!password || password.length < 8) return res.status(400).json({ message: 'Senha inválida' });
+    if (!await bcrypt.compare(password, account.password)) return res.status(401).json({ message: 'Senha incorreta' });
 
     const jwtToken = generateToken(account);
 
     return res.status(200).json(jwtToken);
+  },
+  async show(req: Request, res: Response) {
+    const { email }: CustomerType = req.body;
+
+    const account = await Customer.findOne({ email });
+    if (!account) return res.status(400).json({ message: 'Não existe uma conta com este email.' });
+
+    sendMail({
+      title: 'Recuperação de senha',
+      subject: 'Segue o e-mail para recuperação da sua senha',
+      to: account.email,
+      html: `${process.env.BASEURL}/newpass?recoveryCode=${account.recoveryCode}`,
+    });
+
+    return res.status(200).json({ message: 'Um e-mail foi enviado para que você recupere sua conta, confira a sua caixa de entrada.' });
+  },
+  async update(req: Request, res: Response) {
+    const { password, confirmPassword }: { password: string, confirmPassword: string } = req.body;
+    const { recoveryCode }: CustomerType & any = req.query;
+
+    if (!password || !confirmPassword) return res.status(400).json('Senha inválida');
+    if (password !== confirmPassword) return res.status(400).json('As senhas não são iguais');
+
+    const account = await Customer.findOne({ recoveryCode });
+    if (!account || !recoveryCode) res.status(401).json('Código de recuperação inválido');
+
+    await Customer.updateOne({ customerID: account.customerID }, {
+      password: await bcrypt.hash(password, 10),
+    });
+
+    return res.status(200).json({ message: 'Você já pode logar com sua nova senha.' });
   },
 }
