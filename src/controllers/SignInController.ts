@@ -6,7 +6,7 @@ import { CustomerType } from '../types';
 
 import Customer from '../models/Customer';
 
-import treatEmail from '../utils/treatEmail';
+import { treatEmail } from './utils/treatment';
 import generateToken from './utils/generateToken';
 import sendMail from '../services/sendEmail';
 
@@ -30,19 +30,21 @@ export = {
   async show(req: Request, res: Response) {
     const { email }: CustomerType = req.body;
 
+    const recoveryCode = uuid();
+
     const account = await Customer.findOne({ email });
     if (!account) return res.status(400).json({ message: 'Não existe uma conta com este email.' });
 
     sendMail({
       title: 'Recuperação de senha',
-      subject: 'Segue o e-mail para recuperação da sua senha',
+      subject: 'E-mail para recuperação da sua senha',
       to: account.email,
-      html: `${process.env.BASEURL}/newpass?recoveryCode=${account.recovery.code}`,
+      html: `${process.env.BASEURL}/newpass?recoveryCode=${recoveryCode}`,
     });
 
     await Customer.updateOne({ email }, {
       recovery: {
-        code: uuid(),
+        code: recoveryCode,
         date: new Date().getTime() + 3600000,
       },
     });
