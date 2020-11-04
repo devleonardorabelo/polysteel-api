@@ -6,10 +6,9 @@ import { CustomerType } from '../types';
 
 import Customer from '../models/Customer';
 
-import treatEmail from '../utils/treatEmail';
 import generateToken from './utils/generateToken';
 import sendMail from '../services/sendEmail';
-import { treatCPF } from './utils/treatment';
+import { treatCPF, treatEmail } from './utils/treatment';
 
 export = {
   async store(req: Request, res: Response) {
