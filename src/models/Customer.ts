@@ -19,7 +19,10 @@ const CustomerSchema: Schema = new Schema({
     referencePoint: String,
   },
   actived: Boolean,
-  recoveryCode: String,
+  recovery: {
+    code: String,
+    date: Number,
+  },
 });
 
 export default model<CustomerType & Document>('Customer', CustomerSchema);

@@ -8,13 +8,16 @@ export type CustomerType = {
   address?: {
     cep: string,
     city: string,
-    street: string, // Endereço inicial
-    additionalAddress: string, // Complemento
-    neighborhood: string, // Bairro
+    street: string,
+    additionalAddress: string,
+    neighborhood: string,
     number: number,
     state: string,
     referencePoint: string,
   },
   actived: boolean,
-  recoveryCode: string
+  recovery: {
+    code: string,
+    date: number
+  }
 };

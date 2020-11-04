@@ -30,8 +30,6 @@ export = {
       name,
       email,
       password: await bcrypt.hash(password, 10),
-      actived: false,
-      recoveryCode: uuid(),
     }).save();
 
     sendMail({
