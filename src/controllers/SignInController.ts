@@ -14,7 +14,6 @@ export = {
   async index(req: Request, res: Response) {
     const { email, password }: CustomerType = req.body;
 
-    if (!email) return res.status(400).json({ message: 'Digite um e-mail' });
     const emailTest: boolean = treatEmail(email);
     if (!emailTest) return res.status(400).json({ message: 'Email Invalido' });
 
@@ -38,7 +37,7 @@ export = {
 
     sendMail({
       title: 'Recuperação de senha',
-      subject: 'E-mail para recuperação da sua senha ',
+      subject: 'E-mail para recuperação da sua senha',
       to: account.email,
       html: `${process.env.BASEURL}/newpass?recoveryCode=${recoveryCode}`,
     });
