@@ -20,6 +20,7 @@ export = {
 
     const account = await Customer.findOne({ email });
     if (!account) return res.status(400).json({ message: 'Não existe uma conta com este email' });
+    if (!account.actived) return res.status(401).json({ message: 'Esta conta ainda não foi ativada, verifique seu email' });
 
     if (!password || password.length < 8) return res.status(400).json({ message: 'Senha inválida' });
     if (!await bcrypt.compare(password, account.password)) return res.status(401).json({ message: 'Senha incorreta' });

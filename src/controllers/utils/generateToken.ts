@@ -2,9 +2,9 @@ import jwt from 'jsonwebtoken';
 import { CustomerType } from '../../types';
 
 const generateToken = ({
-  id, name, email, phone, cpf, address, actived,
+  customerID, name, email, phone, cpf, address, actived,
 }: CustomerType) => jwt.sign({
-  id,
+  customerID,
   name,
   email,
   phone,
