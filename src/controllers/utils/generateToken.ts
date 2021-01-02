@@ -11,6 +11,6 @@ const generateToken = ({
   cpf,
   address,
   actived,
-}, process.env.SECRET, { expiresIn: process.env.ACCESSEXPIRATION });
+}, process.env.SECRET);
 
 export default generateToken;
