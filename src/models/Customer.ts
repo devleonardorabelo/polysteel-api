@@ -18,6 +18,21 @@ const CustomerSchema: Schema = new Schema({
     state: String,
     referencePoint: String,
   },
+  company: {
+    name: String,
+    phone: String,
+    cnpj: String,
+    address: {
+      cep: String,
+      city: String,
+      street: String,
+      additionalAddress: String,
+      neighborhood: String,
+      number: Number,
+      state: String,
+      referencePoint: String,
+    },
+  },
   actived: Boolean,
   recovery: {
     code: String,
