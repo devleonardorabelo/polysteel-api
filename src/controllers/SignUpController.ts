@@ -14,15 +14,15 @@ export = {
   async store(req: Request, res: Response) {
     const { name, email, password }: CustomerType = req.body;
 
-    if (!name || name.length <= 3) return res.status(400).json({ message: 'Nome inválido' });
+    if (!name || name.length <= 3) return res.status(400).json({ message: 'Nome inválido', field: 'registerName' });
 
     const emailTest: boolean = treatEmail(email);
-    if (!emailTest) return res.status(400).json({ message: 'Email Invalido' });
+    if (!emailTest) return res.status(400).json({ message: 'Email Invalido', field: 'registerEmail' });
 
     const existingAccount = await Customer.findOne({ email });
-    if (existingAccount) return res.status(400).json({ message: 'Email já existe' });
+    if (existingAccount) return res.status(400).json({ message: 'Email já existe', field: 'registerEmail' });
 
-    if (!password || password.length < 8) return res.status(400).json({ message: 'Senha inválida' });
+    if (!password || password.length < 8) return res.status(400).json({ message: 'Senha inválida', field: 'registerPassword' });
 
     const account = await new Customer({
       customerID: uuid(),
@@ -50,11 +50,11 @@ export = {
     if (customer.actived) return res.status(401).json({ message: 'Esta conta já está confirmada' });
 
     const CPFTest: boolean = treatCPF(cpf);
-    if (!CPFTest) return res.status(400).json({ message: 'CPF inválido' });
+    if (!CPFTest) return res.status(400).json({ message: 'CPF inválido', field: 'registerCPF' });
 
-    if (!address) return res.status(400).json({ message: 'Endereço inválido' });
+    if (!address) return res.status(400).json({ message: 'Endereço inválido', field: 'registerAddress' });
 
-    if (!phone || phone.length < 10) return res.status(400).json({ message: 'Telefone inválido' });
+    if (!phone || phone.length < 10) return res.status(400).json({ message: 'Telefone inválido', field: 'registerPhone' });
 
     await Customer.updateOne({ customerID }, {
       actived: true,

@@ -14,16 +14,16 @@ export = {
   async index(req: Request, res: Response) {
     const { email, password }: CustomerType = req.body;
 
-    if (!email) return res.status(400).json({ message: 'Digite um e-mail' });
+    if (!email) return res.status(400).json({ message: 'Digite um e-mail', field: 'loginEmail' });
     const emailTest: boolean = treatEmail(email);
-    if (!emailTest) return res.status(400).json({ message: 'Email Invalido' });
+    if (!emailTest) return res.status(400).json({ message: 'Email Invalido', field: 'loginEmail' });
 
     const account = await Customer.findOne({ email });
-    if (!account) return res.status(400).json({ message: 'Não existe uma conta com este email' });
+    if (!account) return res.status(400).json({ message: 'Não existe uma conta com este email', field: 'loginEmail' });
     if (!account.actived) return res.status(401).json({ message: 'Esta conta ainda não foi ativada, verifique seu email' });
 
-    if (!password || password.length < 8) return res.status(400).json({ message: 'Senha inválida' });
-    if (!await bcrypt.compare(password, account.password)) return res.status(401).json({ message: 'Senha incorreta' });
+    if (!password || password.length < 8) return res.status(400).json({ message: 'Senha inválida', field: 'loginPassword' });
+    if (!await bcrypt.compare(password, account.password)) return res.status(401).json({ message: 'Senha incorreta', field: 'loginPassword' });
 
     const jwtToken = generateToken(account);
 
@@ -35,7 +35,7 @@ export = {
     const recoveryCode = uuid();
 
     const account = await Customer.findOne({ email });
-    if (!account) return res.status(400).json({ message: 'Não existe uma conta com este email.' });
+    if (!account) return res.status(400).json({ message: 'Não existe uma conta com este email.', field: 'recoverEmail' });
 
     sendMail({
       title: 'Recuperação de senha',
@@ -59,13 +59,13 @@ export = {
 
     const dateNow = new Date().getTime();
 
-    if (!password || !confirmPassword) return res.status(400).json('Senha inválida');
-    if (password !== confirmPassword) return res.status(400).json('As senhas não são iguais');
+    if (!password || !confirmPassword) return res.status(400).json({ message: 'Senha inválida', field: 'updateEmail' });
+    if (password !== confirmPassword) return res.status(400).json({ message: 'As senhas não são iguais', field: 'updateEmail' });
 
     const account = await Customer.findOne({ 'recovery.code': recoveryCode });
 
-    if (!account || !recoveryCode) return res.status(401).json('Código de recuperação inválido');
-    if (account.recovery.date < dateNow) return res.status(401).json('Código de recuperação expirado');
+    if (!account || !recoveryCode) return res.status(401).json({ message: 'Código de recuperação inválido' });
+    if (account.recovery.date < dateNow) return res.status(401).json({ message: 'Código de recuperação expirado' });
 
     await Customer.updateOne({ customerID: account.customerID }, {
       password: await bcrypt.hash(password, 10),
